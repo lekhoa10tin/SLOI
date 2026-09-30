@@ -491,9 +491,34 @@ const ALL=D.concat(EXTRA);
 const nz=s=>s.toLowerCase().split(/\s+/).filter(Boolean).join(' ');
 const enc=s=>{try{return btoa(nz(s))}catch(e){return ''}};
 const expOut=b=>{try{return atob(b).replace(/\b(yes|no)\b/g,m=>m.toUpperCase())}catch(e){return ''}};
+// Bối cảnh (cốt truyện) cho từng vòng, đúng thứ tự các vòng chơi
+const STORY=[
+"Thư viện trường vừa nhập hàng nghìn cuốn sách với mã số lộn xộn. Thủ thư Lan cần sắp xếp và tra cứu mã sách thật nhanh, vì mỗi giờ có hàng trăm bạn đến mượn.",
+"Câu lạc bộ Tin học ghi lại số bài tập mỗi bạn làm được trong từng ngày. Huấn luyện viên muốn trả lời thật nhanh các câu hỏi về tổng số bài trong một khoảng ngày, và cả những đợt cộng thưởng điểm cho nhiều ngày liên tiếp.",
+"Nam phụ trách quầy phục vụ của hội chợ xuân, thời gian ít mà việc thì nhiều. Ở mỗi bước, Nam chọn phương án có lợi nhất ngay lúc đó và cần chắc chắn cách làm ấy cho kết quả tối ưu.",
+"Trong buổi trại hè, đội của Minh phải mở chiếc hòm bí mật bằng cách thử các cách chọn vật phẩm. Số vật phẩm ít nên có thể thử mọi khả năng, nhưng phải thử có hệ thống và bỏ ngay những nhánh chắc chắn vô ích.",
+"Bác Tư bán hàng ở chợ phiên, hay tính toán với những con số rất lớn: chia hết, số nguyên tố, lũy thừa. Bác cần chương trình cho kết quả chính xác mà không bị tràn số.",
+"Hùng chuẩn bị đồ cho chuyến chinh phục đỉnh Fansipan. Mỗi món có khối lượng và giá trị sử dụng khác nhau, còn sức mang của anh thì có hạn, nên anh cần chọn phương án tối ưu.",
+"Công ty giao hàng Gió Mới có nhiều điểm giao và mạng lưới cửa hàng dạng cây. Giám đốc muốn tìm phương án rẻ nhất và cách phân công nhân sự sao cho không hai cửa hàng kề nhau cùng bị chọn.",
+"Thành phố Sương Mù gồm nhiều khu phố nối với nhau bằng các con đường. Bé Na là hướng dẫn viên và cần biết những khu nào đi được sang nhau, đường ngắn nhất giữa hai khu, và lối thoát khỏi mê cung trên bản đồ lưới.",
+"Ứng dụng bản đồ Đường Xa cần chỉ đường cho tài xế. Mỗi con đường có độ dài hay chi phí riêng, đôi khi chi phí còn âm nhờ khuyến mãi, và ứng dụng phải luôn tìm ra hành trình ngắn nhất.",
+"Vương quốc Ong Mật gồm nhiều tổ nối với nhau bằng cầu. Nhà vua muốn gộp các tổ thành khu vực, xây cầu với tổng chi phí thấp nhất để tất cả tổ đều liên lạc được với nhau.",
+"Ban thống kê của giải đấu liên tục cập nhật điểm của các đội và bị hỏi tổng điểm hay điểm nhỏ nhất trong một đoạn bảng xếp hạng. Cần cấu trúc dữ liệu trả lời nhanh, kể cả khi có hàng trăm nghìn câu hỏi.",
+"Nhà mật mã học An nhận được những bức thư mã hóa rất dài. Cô cần kiểm tra tính đối xứng, đếm số lần một mẫu xuất hiện, và so sánh nhanh các đoạn thư khác nhau.",
+"Trong ngày hội trường, các bạn xếp đĩa và thùng hàng theo kiểu vào sau ra trước. Bình cần tìm thật nhanh, cho từng vị trí, phần tử lớn hơn gần nhất, và kiểm tra dãy ngoặc có hợp lệ hay không.",
+"Trạm khí tượng ghi nhiệt độ mỗi ngày. Sau mỗi ngày, trạm phải báo nhiệt độ thấp nhất hoặc cao nhất trong k ngày liên tiếp gần nhất, và vẫn phải chạy nhanh khi chuỗi dữ liệu rất dài.",
+"Ban tổ chức kỳ thi có mã số thí sinh lên tới hàng tỷ nhưng chỉ có vài nghìn thí sinh. Để xếp phòng và đếm nhanh, họ cần đánh số lại các mã theo thứ hạng.",
+"Cửa hàng của cô Hoa ghi lãi lỗ theo từng ngày. Cô muốn biết dãy ngày liên tiếp nào cho tổng lãi cao nhất hoặc lỗ nhiều nhất, kể cả khi các ca làm việc xếp thành vòng lặp.",
+"Sinh viên Khoa phải hoàn thành nhiều môn học, trong đó môn này là điều kiện tiên quyết của môn kia. Nhà trường cần xếp thứ tự học hợp lệ và phát hiện ngay nếu có vòng phụ thuộc.",
+"Hệ thống tàu điện ngầm tính vé theo từng chặng: có chặng miễn phí, chặng đắt, và cả chặng được hoàn tiền. Kỹ sư cần tìm hành trình rẻ nhất và cảnh báo nếu có chuỗi chặng khiến tiền giảm mãi.",
+"Công ty viễn thông muốn nối cáp quang giữa các trạm với tổng chi phí thấp nhất. Kỹ sư trưởng lần lượt xét những đường cáp rẻ nhất và bỏ những đường gây ra vòng thừa.",
+"Gia phả dòng họ Nguyễn là một cây lớn với hàng vạn thành viên. Nhà nghiên cứu cần tìm ngay tổ tiên chung gần nhất của hai người bất kỳ, và phải làm việc đó hàng trăm nghìn lần.",
+"Đội an ninh mạng muốn tìm hai mã khóa có độ khác biệt lớn nhất, đo bằng phép XOR. Họ lưu toàn bộ khóa dưới dạng nhị phân để tìm cặp khác biệt nhất thật nhanh.",
+"Đội thám hiểm tìm thấy hơn bốn mươi món cổ vật, quá nhiều để thử hết mọi tổ hợp. Họ chia đội làm hai nửa, mỗi nửa tự tính rồi ghép kết quả hai bên lại."
+];
 function show(){
   const d=ALL[R2.i],[q,ts]=T[R2.i][R2.k];
-  app.innerHTML=`<div class="card"><div class="row"><b>Vòng ${R2.i+1}: ${d.n} · Bài ${R2.k+1}/5</b><span class="timer" id="tm">00:00</span></div><p>${esc(q)}</p><p class="mut">Viết chương trình C++ đọc từ <code>cin</code> và in ra <code>cout</code>. Khi nộp, code được biên dịch và chạy trên máy chấm trực tuyến với 3 input dưới đây (giới hạn 2 giây mỗi test). Cần có internet.</p>${ts.map((t,j)=>`<p><b>Input ${j+1}</b></p><pre>${esc(t[0])}</pre><p class="mut"><b>Output mong đợi ${j+1}</b></p><pre>${esc(expOut(t[1]))}</pre>`).join('')}<p><b>Code C++ của bạn</b></p><textarea id="code" spellcheck="false"></textarea><p><button id="sub">▶ Chạy &amp; Nộp bài</button> <button class="sec" onclick="tab(2)">Thoát</button></p><div id="res"></div></div>`;
+  app.innerHTML=`<div class="card"><div class="row"><b>Vòng ${R2.i+1}: ${d.n} · Bài ${R2.k+1}/5</b><span class="timer" id="tm">00:00</span></div><div style="background:rgba(91,91,240,.09);border-left:4px solid var(--ac);padding:10px 14px;border-radius:8px;margin:10px 0"><b>📖 Bối cảnh</b><br>${STORY[R2.i]||''}</div><p><b>📝 Nhiệm vụ ${R2.k+1}:</b> ${esc(q)}</p><p class="mut">Viết chương trình C++ đọc từ <code>cin</code> và in ra <code>cout</code>. Khi nộp, code được biên dịch và chạy trên máy chấm trực tuyến với 3 input dưới đây (giới hạn 2 giây mỗi test). Cần có internet.</p>${ts.map((t,j)=>`<p><b>Input ${j+1}</b></p><pre>${esc(t[0])}</pre><p class="mut"><b>Output mong đợi ${j+1}</b></p><pre>${esc(expOut(t[1]))}</pre>`).join('')}<p><b>Code C++ của bạn</b></p><textarea id="code" spellcheck="false"></textarea><p><button id="sub">▶ Chạy &amp; Nộp bài</button> <button class="sec" onclick="tab(2)">Thoát</button></p><div id="res"></div></div>`;
   $('#code').value=TPL;$('#code').onkeydown=k=>{if(k.key=='Tab'){k.preventDefault();const t=k.target;t.setRangeText('    ',t.selectionStart,t.selectionEnd,'end')}};
   $('#sub').onclick=submit;
   document.querySelectorAll('.ans').forEach(e=>e.onkeydown=k=>{if(k.key=='Enter')submit()});
