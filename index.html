@@ -429,9 +429,10 @@ T.push(...T2);
 const ALL=D.concat(EXTRA);
 const nz=s=>s.toLowerCase().split(/\s+/).filter(Boolean).join(' ');
 const enc=s=>{try{return btoa(nz(s))}catch(e){return ''}};
+const expOut=b=>{try{return atob(b).replace(/\b(yes|no)\b/g,m=>m.toUpperCase())}catch(e){return ''}};
 function show(){
   const d=ALL[R2.i],[q,ts]=T[R2.i][R2.k];
-  app.innerHTML=`<div class="card"><div class="row"><b>Vòng ${R2.i+1}: ${d.n} · Bài ${R2.k+1}/5</b><span class="timer" id="tm">00:00</span></div><p>${esc(q)}</p><p class="mut">Viết chương trình C++ đọc từ <code>cin</code> và in ra <code>cout</code>. Khi nộp, code được biên dịch và chạy trên máy chấm trực tuyến với 3 input dưới đây (giới hạn 2 giây mỗi test). Cần có internet.</p>${ts.map((t,j)=>`<p><b>Input ${j+1}</b></p><pre>${esc(t[0])}</pre>`).join('')}<p><b>Code C++ của bạn</b></p><textarea id="code" spellcheck="false"></textarea><p><button id="sub">▶ Chạy &amp; Nộp bài</button> <button class="sec" onclick="tab(2)">Thoát</button></p><div id="res"></div></div>`;
+  app.innerHTML=`<div class="card"><div class="row"><b>Vòng ${R2.i+1}: ${d.n} · Bài ${R2.k+1}/5</b><span class="timer" id="tm">00:00</span></div><p>${esc(q)}</p><p class="mut">Viết chương trình C++ đọc từ <code>cin</code> và in ra <code>cout</code>. Khi nộp, code được biên dịch và chạy trên máy chấm trực tuyến với 3 input dưới đây (giới hạn 2 giây mỗi test). Cần có internet.</p>${ts.map((t,j)=>`<p><b>Input ${j+1}</b></p><pre>${esc(t[0])}</pre><p class="mut"><b>Output mong đợi ${j+1}</b></p><pre>${esc(expOut(t[1]))}</pre>`).join('')}<p><b>Code C++ của bạn</b></p><textarea id="code" spellcheck="false"></textarea><p><button id="sub">▶ Chạy &amp; Nộp bài</button> <button class="sec" onclick="tab(2)">Thoát</button></p><div id="res"></div></div>`;
   $('#code').value=TPL;$('#code').onkeydown=k=>{if(k.key=='Tab'){k.preventDefault();const t=k.target;t.setRangeText('    ',t.selectionStart,t.selectionEnd,'end')}};
   $('#sub').onclick=submit;
   document.querySelectorAll('.ans').forEach(e=>e.onkeydown=k=>{if(k.key=='Enter')submit()});
