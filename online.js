@@ -1,7 +1,7 @@
 // ===== SLOI: THI ĐẤU XẾP HẠNG (nạp sau sloi.js) =====
 // Dán URL Firebase Realtime Database vào NET.fb để ghép trận thật giữa các máy, ví dụ 'https://ten-du-an-default-rtdb.firebaseio.com'
 // Để trống = chế độ thử: chỉ ghép được với tab khác trong cùng trình duyệt (hoặc đấu với máy).
-const NET={fb:'',ms:1500};
+const NET={fb:'https://sloivn-default-rtdb.asia-southeast1.firebasedatabase.app',ms:1500};
 const RN=['🥉 Đồng','🥈 Bạc','🥇 Vàng','💠 Bạch Kim','💎 Kim Cương','🔥 Cao Thủ','👑 Đại Cao Thủ','🐉 Huyền Thoại'];
 const WIN_PTS=100,STEP=200; // thắng +100 điểm; rank r cần STEP*(r+1) điểm để lên rank r+1
 const LV=[0,0,1,1,1,2,4,2,3,3,5,5,2,3,2,2,3,4,3,5,6,7]; // độ khó từng chuyên đề (đúng thứ tự các vòng 1-22)
